@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Khalal | FUF</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Special+Elite&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="experience">
+    <div class="artwork-glow artwork-glow--left"></div>
+    <div class="artwork-glow artwork-glow--center"></div>
+    <div class="artwork-glow artwork-glow--bottom"></div>
+    <div class="film-grain"></div>
+
+    <section class="cover-stage">
+      <h1 class="cover-title" id="album-title">Khalal</h1>
+      <p class="cover-subtitle" id="album-subtitle">FUF</p>
+    </section>
+
+    <section class="player-panel">
+      <div class="track-meta">
+        <p class="track-name" id="track-name">Random Track Ready</p>
+        <p class="track-status" id="track-status"></p>
+      </div>
+
+      <div class="track-line">
+        <span class="track-progress"></span>
+        <span class="track-knob"></span>
+      </div>
+
+      <div class="track-time">
+        <span id="current-time">00:00</span>
+        <span id="total-time">00:00</span>
+      </div>
+
+      <div class="controls-row">
+        <button class="control control--play" id="play-button" type="button" aria-label="تشغيل أو إيقاف">▶</button>
+      </div>
+
+      <div class="links-grid" id="links-container"></div>
+    </section>
+  </main>
+
+  <audio id="audio-player" preload="metadata"></audio>
+  <script src="script.js"></script>
+</body>
+</html>

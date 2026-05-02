@@ -1,0 +1,175 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Khalal Albums Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Special+Elite&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="site-noise" aria-hidden="true"></div>
+  <div class="theme-transition" id="theme-transition" aria-hidden="true"></div>
+
+  <main class="app-shell">
+    <header class="hero">
+      <div class="hero-copy">
+        <p class="hero-eyebrow">KHALAL ARCHIVE</p>
+        <h1>الألبومات</h1>
+        <p>اضغط على أي غلاف لعرض روابط الألبوم. إدارة الألبومات متاحة من الزر العلوي.</p>
+      </div>
+
+      <button class="admin-entry" id="admin-entry" type="button">إدارة</button>
+    </header>
+
+    <section class="albums-grid" id="albums-grid" aria-live="polite"></section>
+  </main>
+
+  <div class="overlay hidden" id="album-overlay">
+    <div class="overlay-backdrop" data-close="album-overlay"></div>
+    <section class="album-modal">
+      <button class="close-button" id="album-close" type="button" aria-label="إغلاق">×</button>
+
+      <div class="album-modal__media">
+        <img id="modal-cover" alt="غلاف الألبوم">
+      </div>
+
+      <div class="album-modal__content">
+        <p class="modal-pill">ALBUM ACCESS</p>
+        <h2 id="modal-title">اسم الألبوم</h2>
+        <p class="modal-subtitle" id="modal-subtitle">تفاصيل الألبوم</p>
+        <p class="modal-description" id="modal-description"></p>
+        <div class="modal-links" id="modal-links"></div>
+      </div>
+    </section>
+  </div>
+
+  <div class="overlay hidden" id="auth-overlay">
+    <div class="overlay-backdrop" data-close="auth-overlay"></div>
+    <section class="auth-card">
+      <button class="close-button close-button--soft" id="auth-close" type="button" aria-label="إغلاق">×</button>
+      <p class="auth-eyebrow">ADMIN ACCESS</p>
+      <h2 id="auth-title">أدخل كلمة مرور الإدارة</h2>
+      <p class="auth-copy" id="auth-copy">اكتب كلمة المرور لفتح لوحة إدارة الألبومات.</p>
+
+      <form class="auth-form" id="auth-form">
+        <label class="field">
+          <span>كلمة المرور</span>
+          <input id="auth-password" type="password" autocomplete="current-password" required>
+        </label>
+
+        <label class="field hidden" id="confirm-field">
+          <span>تأكيد كلمة المرور</span>
+          <input id="auth-confirm" type="password" autocomplete="new-password">
+        </label>
+
+        <button class="primary-button" type="submit" id="auth-submit">دخول الإدارة</button>
+      </form>
+
+      <p class="status-text" id="auth-status"></p>
+    </section>
+  </div>
+
+  <div class="overlay hidden" id="admin-overlay">
+    <div class="overlay-backdrop" data-close="admin-overlay"></div>
+    <section class="admin-panel">
+      <div class="admin-panel__header">
+        <div>
+          <p class="admin-eyebrow">EDITOR</p>
+          <h2>إدارة الألبومات</h2>
+        </div>
+
+        <div class="admin-panel__actions">
+          <button class="ghost-button" id="new-album" type="button">ألبوم جديد</button>
+          <button class="ghost-button" id="download-data" type="button">تصدير نسخة</button>
+          <label class="ghost-button ghost-button--file" for="import-data">استيراد نسخة</label>
+          <input id="import-data" type="file" accept="application/json" hidden>
+          <button class="ghost-button" id="admin-close" type="button">إغلاق</button>
+        </div>
+      </div>
+
+      <div class="admin-layout">
+        <aside class="admin-side">
+          <div class="admin-side__head">
+            <p class="admin-side__eyebrow">LIBRARY</p>
+            <h3>الألبومات الحالية</h3>
+            <p>اختار أي ألبوم للتعديل أو ابدأ ألبوماً جديداً من الزر العلوي.</p>
+          </div>
+          <div class="admin-list" id="admin-list"></div>
+        </aside>
+
+        <form class="album-form" id="album-form">
+          <input id="album-id" type="hidden">
+          <input id="album-cover-data" type="hidden">
+
+          <div class="editor-grid">
+            <section class="editor-section">
+              <div class="editor-section__head">
+                <p class="editor-pill">INFO</p>
+                <h3>بيانات الألبوم</h3>
+              </div>
+
+              <label class="field">
+                <span>اسم الألبوم</span>
+                <input id="album-title-input" type="text" required>
+              </label>
+
+              <label class="field">
+                <span>اسم الفنان أو الساب تايتل</span>
+                <input id="album-subtitle-input" type="text" placeholder="مثال: FUF">
+              </label>
+
+              <label class="field">
+                <span>وصف قصير</span>
+                <textarea id="album-description-input" rows="4" placeholder="تعريف قصير بالألبوم أو ملاحظات للروابط"></textarea>
+              </label>
+            </section>
+
+            <section class="editor-section">
+              <div class="editor-section__head">
+                <p class="editor-pill">VISUAL</p>
+                <h3>الغلاف والثيم</h3>
+              </div>
+
+              <div class="cover-upload">
+                <div class="cover-preview" id="cover-preview">
+                  <span>لا توجد صورة بعد</span>
+                </div>
+
+                <div class="cover-upload__actions">
+                  <label class="primary-button primary-button--file" for="album-cover-input">رفع صورة الغلاف</label>
+                  <input id="album-cover-input" type="file" accept="image/*" hidden>
+                  <p class="hint-text">بمجرد رفع الصورة، الموقع يستخرج منها الألوان ويولد ثيم قريب من روحها تلقائياً.</p>
+                </div>
+              </div>
+            </section>
+
+            <section class="editor-section editor-section--full">
+              <div class="editor-section__head editor-section__head--between">
+                <div>
+                  <p class="editor-pill">LINKS</p>
+                  <h3>روابط المنصات</h3>
+                </div>
+                <button class="ghost-button" id="add-link" type="button">إضافة رابط</button>
+              </div>
+
+              <div class="link-rows" id="link-rows"></div>
+            </section>
+          </div>
+
+          <div class="form-actions">
+            <button class="primary-button" type="submit">حفظ الألبوم</button>
+            <button class="ghost-button ghost-button--danger" id="delete-album" type="button">حذف الألبوم</button>
+          </div>
+
+          <p class="status-text" id="form-status"></p>
+        </form>
+      </div>
+    </section>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
